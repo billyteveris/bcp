@@ -1,1 +1,193 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~reset.scss";
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+	@if $inset {
+		-webkit-box-shadow:inset $top $left $blur $color;
+		-moz-box-shadow:inset $top $left $blur $color;
+		box-shadow:inset $top $left $blur $color;
+	} @else {
+		-webkit-box-shadow: $top $left $blur $color;
+		-moz-box-shadow: $top $left $blur $color;
+		box-shadow: $top $left $blur $color;
+	}
+  }
+  
+  @mixin border-radius($radius) { 
+	  border-radius: $radius; 
+	  -webkit-border-radius: $radius; 
+	  -moz-border-radius: $radius; 
+	  -ms-border-radius: $radius; 
+  }
+  
+  @function calculateRem($size) {
+	$remSize: $size/ 16px;
+	@return $remSize * 1rem;
+  }
+  @mixin font-size($size){
+	font-size: $size;
+	font-size: calculateRem($size);
+  }
+
+$grupo1:(
+	"bcp-orange":(
+		default: #FF7800,
+		hover: #FF9333,
+		pressed:  #D76C0E,
+		disabled:  #C8C8C8,
+	),
+	"bcp-teal":(
+		default: #2CC0D5,
+		hover: #56CCDD,
+		pressed: #2EA5B8,
+		disabled: #C8C8C8,
+	),
+);
+
+$grupo2:(
+	"bcp-blue": #1B2F73,
+	"bcp-light-blue":#0063BD,
+	"bcp-grayblue-one":#5377A2,
+);
+$grupo3:(
+	"bcp-grayblue-two":#7194BD,
+	"bcp-grayblue-three":#A2B5D2,
+	"bcp-grayblue-four":#D6DCE9,
+	"bcp-grayblue-five":#EFF3F9,
+);
+$grupo4:(
+	"dark-gray-one":#282828,
+	"dark-gray-two":#484848,
+	"medium-gray-one": #686868,
+	"medium-gray-two":#888888,
+);
+$grupo5:( 
+	"light-gray-one":#A8A8A8,
+	"light-gray-two":#C8C8C8,
+	"bgn-gray-one":#E8E8E8,
+	"bgn-gray-two":#F8F8F8,
+);
+$grupo6:(
+	"bcp-green":#93C737,
+	"bcp-yellow":#F9DE5C,
+	"bcp-purple":#731B73,
+	"bcp-fuchsia":#EF476F,
+);
+$grupo7:(
+	"bcp-green-note":#F1FDDA,
+	"bcp-yellow-note":#FFFCEF,
+	"bcp-purple-note":#F3E6F3,
+	"bcp-fuchsia-note":#FFECF1,
+	
+);
+$grupo8:(
+	"error":#DA2329,
+);
+$colors:(
+	"grupo2": $grupo2,
+	"grupo3": $grupo3,
+	"grupo4": $grupo4,
+	"grupo5": $grupo5,
+	"grupo6": $grupo6,
+	"grupo7": $grupo7,
+	"grupo8": $grupo8,
+);
+
+@each $color_name, $color in $colors{
+	@each $color_type, $color_value in $color {
+		@if $color_type == "grupo2" or $color_type == "grupo8"{
+			.#{$color_name}{
+				color:$color_value;
+			}
+		} @else {
+			.#{$color_name}{
+				background:$color_value;
+				color: white;
+				&:hover{
+					background-color: lighten($color_value , 10%) !important; 
+				}
+				&:focus{
+					background-color: darken($color_value, 10%);
+					outline: none;                    
+				}
+				&:disabled{
+					background-color: #{map_get($color,'light-gray-two')};
+					border: 1px solid #{map_get($color,'light-gray-two')};
+				}
+			}
+			.#{$color_name}-outline{
+				background: white;
+				color: $color_value;
+			}
+		}
+	}
+}
+
+@each $name, $status in $grupo1{
+	.#{$name}{
+		background: #{map_get($status,'default')};
+		color: white;
+		border: 1px solid #{map_get($status,'default')};
+		&:disabled{
+			background: #{map_get($status,'disabled')};
+			border: 1px solid #{map_get($status,'disabled')};
+		}
+	}
+	.#{$name}-outline{
+		background: transparent;
+		color: #{map_get($status,'default')};
+		border: 1px solid #{map_get($status,'default')};
+		&:disabled{
+			color: #{map_get($status,'disabled')};
+			border: 1px solid #{map_get($status,'disabled')};
+		}
+	}
+	.#{$name},.#{$name}-outline{
+		&:hover:enabled{
+			background: #{map_get($status,'hover')};
+			color: white;
+
+		}
+		&:active:enabled, &:focus:enabled{
+			background: #{map_get($status,'pressed')};
+			outline: none;
+			color: white;
+		}
+	}
+}
+
+.btn{
+	& span:first-child{
+		padding-left: 16px;
+	}
+	& span:last-child{
+		padding-right: 16px;
+	}
+	
+		& i:first-child{
+			padding-left: 8px;
+			padding-right: 16px;
+		}
+		& i:last-child{
+			padding-right: 8px;
+			padding-left: 16px;
+		}
+}
+  
+.btn-sm{
+  height: 24px;
+  @include font-size(11px);
+  @include border-radius(12px);
+}
+
+.btn-md{
+	height: 32px;
+	@include font-size(13px);
+	@include border-radius(16px);
+}
+
+.btn-lg{
+  height: 40px;
+  @include font-size(18px);
+  @include border-radius(20px);
+}

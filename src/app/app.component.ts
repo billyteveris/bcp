@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  classes= ["bcp-orange","bcp-orange-outline","bcp-teal","bcp-teal-outline"]
 }
